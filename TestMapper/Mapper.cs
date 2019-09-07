@@ -69,7 +69,7 @@ namespace TestMapper
 
         }
 
-        private ConstructorInfo GetConstructorInfo(Type type)
+        private static ConstructorInfo GetConstructorInfo(Type type)
         {
             ConstructorInfo[] constructorInfos = type.GetConstructors();
             int infoLength = constructorInfos.Length;
