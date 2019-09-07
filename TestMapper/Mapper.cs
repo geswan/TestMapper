@@ -61,11 +61,11 @@ namespace TestMapper
         /// Maps TClassA to a new instance of TClassB using its default constructor
         /// Throws an InvalidOperationException if there is no default constructor
         /// </summary>
-        public TClassB Map(TClassA source)
+        public TClassB Map(TClassA producer)
         {
-            TClassB sink = CreateNewInstance<TClassB>();
-            Map(source, sink);
-            return sink;
+            TClassB consumer = CreateNewInstance<TClassB>();
+            Map(producer, consumer);
+            return consumer;
 
         }
 
