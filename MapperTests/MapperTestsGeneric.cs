@@ -1,5 +1,7 @@
 using Mapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+
 namespace MapperTests
 {
 
@@ -11,6 +13,7 @@ namespace MapperTests
 		protected abstract TClassB CreateSampleClassB();
         protected abstract (string NameA, string NameB) Get2NamesToPair();
         protected abstract (string NameA, string NameB)[] GetArrayOfNamesToPair();
+        protected abstract (string NameA, string NameB) Get2NamesToPairFromPropsWithDifferentTypes();
         protected abstract bool AreAllPropsUnchanged(TClassA a);
 		protected abstract bool AreUnsharedPropsUnchanged(TClassA a);
 		protected abstract bool AreSharedPropsInClassAMatchedToThoseInClassB(TClassA a);
@@ -85,6 +88,15 @@ namespace MapperTests
 		}
 
         [TestMethod]
+        public void MapClassAMapsToNewInstanceOfClassB()
+        {
+            Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
+            TClassA a = CreateSampleClassA();
+            TClassB b = mapper.Map(a);
+            Assert.IsTrue(AreSharedPropsInClassBMatchedToThoseInClassA(b));
+        }
+
+        [TestMethod]
         public void PairAddsATupleToMatchingProperties()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
@@ -126,6 +138,28 @@ namespace MapperTests
             mapper.Pair(namesArray);
             mapper.Map(b, a);
             Assert.IsTrue(ArePairedNamesMappedFromClassBToClassA(a));
+        }
+
+
+        [TestMethod]                                 //test fail message
+        [ExpectedException(typeof(ArgumentException),"An unmatched name was allowed")]
+        public void PairThrowsArgumentExceptionWhenPropNameNotFound()
+        {
+            Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
+            (string NameA, string NameB) = Get2NamesToPair();
+            string unmatchedName = "*" + NameA;
+            mapper.Pair(unmatchedName, NameB);
+           
+        }
+
+        [TestMethod]                                 //test fail message
+        [ExpectedException(typeof(ArgumentException),"Different property Types were allowed")]
+        public void PairThrowsArgumentExceptionWhenPairedTypesDoNotMatch()
+        {
+            Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
+            (string NameA, string NameB) = Get2NamesToPairFromPropsWithDifferentTypes();
+            mapper.Pair(NameA, NameB);
+
         }
     }
 }

@@ -95,6 +95,11 @@ namespace MapperTests
             return (Constants.CodeA, Constants.CodeNameB);
         }
 
+        protected override (string NameA, string NameB) Get2NamesToPairFromPropsWithDifferentTypes()
+        {
+            return (Constants.CodeA, Constants.RecordNumberB);
+        }
+
         protected override (string NameA, string NameB)[] GetArrayOfNamesToPair()
         {
             (string NameA, string NameB)[] names = new (string NameA, string NameB)[]

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29230.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMapper", "TestMapper\TestMapper.csproj", "{B2798866-E21B-42BD-885B-0B60CDEB5901}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapperDemo", "TestMapper\MapperDemo.csproj", "{B2798866-E21B-42BD-885B-0B60CDEB5901}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapperTests", "MapperTests\MapperTests.csproj", "{C8C9E018-18FA-4E7F-AD67-1A39C34F272D}"
 EndProject

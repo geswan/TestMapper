@@ -2,7 +2,7 @@
 using System;
 using System.Globalization;
 
-namespace TestMapper
+namespace MapperDemo
 {
 
     class Program
