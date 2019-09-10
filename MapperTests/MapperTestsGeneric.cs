@@ -1,5 +1,5 @@
+using Mapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TestMapper;
 namespace MapperTests
 {
 

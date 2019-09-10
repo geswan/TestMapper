@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 
 
-namespace TestMapper
+namespace Mapper
 {
 	public class Mapper<TClassA, TClassB> : IMapper<TClassA, TClassB>
 		where TClassA : class
