@@ -13,21 +13,25 @@ namespace TestMapper
 
 
 	{
-		private readonly IEnumerable<(PropertyInfo classA, PropertyInfo classB)> matchingProperties;
-		public Mapper()
+		private readonly List<(PropertyInfo classA, PropertyInfo classB)> matchingProperties;
+        private readonly PropertyInfo[] classAProps;
+        private readonly PropertyInfo[] classBProps;
+
+        public Mapper()
 		{
 			Type classAType = typeof(TClassA);
-			PropertyInfo[] classAProps = classAType.GetProperties();
+			classAProps = classAType.GetProperties();
 			Type classBType = typeof(TClassB);
-			PropertyInfo[] classBProps = classBType.GetProperties();
+			classBProps = classBType.GetProperties();
 			matchingProperties =
 			classAProps.Join(           // outer collection
 			  classBProps,             // inner collection
 			  a => a.Name, // outer key  
 			  b => b.Name,     // inner key 
 			  (a, b) => (a, b)//project into ValueTuple
-			  );
-		}
+			  ).ToList();
+            
+        }
 		public void Map(TClassA producer, TClassB consumer)
 		{
 			foreach (var (classAInfo, classBInfo) in matchingProperties)
@@ -68,6 +72,28 @@ namespace TestMapper
             return consumer;
 
         }
+
+        public void Pair(string propNameA, string propNameB)
+        {
+            var propA = classAProps.FirstOrDefault(a => a.Name == propNameA);
+            var propB = classBProps.FirstOrDefault(a => a.Name == propNameB);
+            if (propA == null || propB == null)
+            throw new ArgumentException($"No match found for {propNameA}, {propNameB}");
+            if(propA.PropertyType.FullName!= propB.PropertyType.FullName)
+                throw new ArgumentException($"The property types do not match {propNameA}, {propNameB}");
+            matchingProperties.Add((propA, propB));
+        }
+
+        public void Pair((string propNameA, string propNameB)[] pairs)
+        {
+            if (pairs == null)
+            throw new ArgumentNullException(nameof(pairs));
+            foreach (var (propNameA, propNameB) in pairs)
+            {
+                Pair(propNameA, propNameB);
+            }
+        }
+        public int GetMappingsTotal() => matchingProperties.Count;
 
         private static ConstructorInfo GetConstructorInfo(Type type)
         {

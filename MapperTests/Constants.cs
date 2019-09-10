@@ -9,9 +9,13 @@ namespace MapperTests
 		public const int AgeB = 30;
 		public const double CashA = 20.5;
 		public const double CashB = 40.5;
-		public const string CodeA = "AAA";
-		public const string CodeNameB = "BBB";
-		public const string PersonAName = "PersonA";
+		public const string CodeA = "Code";
+		public const string CodeNameB = "CodeName";
+        public const string IdA = "Id";
+        public const  int IdAValue = 2;
+        public const string RecordNumberB = "RecordNumber";
+        public const int RecordNumberBValue = 4;
+        public const string PersonAName = "PersonA";
 		public const string PersonBName = "PersonB";
 		public const string ClassADate = "1215/06/15";
 		public const string ClassBDate = "1066/10/14";

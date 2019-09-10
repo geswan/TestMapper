@@ -24,6 +24,7 @@ namespace MapperTests
 				Age = Constants.AgeA,
 				Cash = Constants.CashA,
 				Code = Constants.CodeA,
+                Id=Constants.IdAValue,
 				Date = classADate,
 				Employee = employeeA
 			};
@@ -39,7 +40,8 @@ namespace MapperTests
 				Cash = Constants.CashB,
 				CodeName = Constants.CodeNameB,
 				Date = classBDate,
-				Employee = employeeB
+				Employee = employeeB,
+                RecordNumber=Constants.RecordNumberBValue
 			};
 			return classB;
 		}
@@ -49,6 +51,7 @@ namespace MapperTests
 				  a.Age == Constants.AgeA &&
 				  a.Cash == Constants.CashA &&
 				  a.Code == Constants.CodeA &&
+                  a.Id == Constants.IdAValue &&
 				  a.Date == classADate &&
 				  a.Employee == employeeA;
 
@@ -56,12 +59,15 @@ namespace MapperTests
 				  b.Age == Constants.AgeB &&
 				  b.Cash == Constants.CashB &&
 				  b.CodeName == Constants.CodeNameB &&
-				  b.Date == classBDate &&
+                  b.RecordNumber == Constants.RecordNumberBValue &&
+                  b.Date == classBDate &&
 				  b.Employee == employeeB;
-		protected override bool AreUnsharedPropsUnchanged(ClassB b) => b.CodeName == Constants.CodeNameB;
+		protected override bool AreUnsharedPropsUnchanged(ClassB b) => b.CodeName == Constants.CodeNameB &&
+            b.RecordNumber== Constants.RecordNumberBValue;
 
 
-		protected override bool AreUnsharedPropsUnchanged(ClassA a) => a.Code == Constants.CodeA;
+		protected override bool AreUnsharedPropsUnchanged(ClassA a) => a.Code == Constants.CodeA &&
+            a.Id==Constants.IdAValue;
 
 
 
@@ -79,7 +85,23 @@ namespace MapperTests
 							b.Cash == Constants.CashA &&
 							b.Date == classADate &&
 							b.Employee == employeeA;
+        protected override bool ArePairedNamesMappedFromClassAToClassB(ClassB b) => b.CodeName == Constants.CodeA &&
+                    b.RecordNumber == Constants.IdAValue;
 
+        protected override bool ArePairedNamesMappedFromClassBToClassA(ClassA a) => a.Code == Constants.CodeNameB &&
+                   a.Id == Constants.RecordNumberBValue;
+        protected override (string NameA, string NameB) Get2NamesToPair()
+        {
+            return (Constants.CodeA, Constants.CodeNameB);
+        }
 
-	}
+        protected override (string NameA, string NameB)[] GetArrayOfNamesToPair()
+        {
+            (string NameA, string NameB)[] names = new (string NameA, string NameB)[]
+            {
+                 (Constants.CodeA, Constants.CodeNameB), (Constants.IdA,Constants.RecordNumberB)
+            };
+            return names;
+        }
+    }
 }

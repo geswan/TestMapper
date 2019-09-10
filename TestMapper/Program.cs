@@ -16,22 +16,45 @@ namespace TestMapper
                 Id = 1,
                 Dob = DateTime.Parse("05/10/1990", CultureInfo.CurrentCulture)
             };
-            Dto dto = new Dto();
-            Mapper<Student, Dto> mapper = new Mapper<Student, Dto>();
+            DemoMapStudentToDto(student);
+            DemoMapStudentToDtoWithPairing(student);
+            DemoMapStudentToNewInstanceOfDtoWithPairing(student);
 
+            Console.ReadLine();
+        }
+        private static void DemoMapStudentToDto(Student student)
+        {
+            Dto dto = new Dto();
             Console.WriteLine($"Student before mapping: {student}");
             Console.WriteLine($"Dto before mapping: {dto}\r\n");
+            Mapper<Student, Dto> mapper = new Mapper<Student, Dto>();
             mapper.Map(student, dto);
             Console.WriteLine($"Student after mapping: {student}");
             Console.WriteLine($"Dto after mapping: {dto}\r\n");
-            DatabaseRecord record = new DatabaseRecord { Id = 2 };
-            Console.WriteLine($"DatabaseRecord before mapping: {record}");
-            Mapper<Dto, DatabaseRecord> dbMapper = new Mapper<Dto, DatabaseRecord>();
-            dbMapper.Map(dto, record);
-            Console.WriteLine($"DatabaseRecord after mapping: {record}\r\n");
-            DatabaseRecord newRecord = dbMapper.Map(dto);
-            Console.WriteLine($"DatabaseRecord after mapping to new instance: {newRecord}");
-            Console.ReadLine();
+        }
+
+        private static void DemoMapStudentToDtoWithPairing(Student student)
+        {
+            Dto dto = new Dto();
+            Mapper<Student, Dto> mapper = new Mapper<Student, Dto>();
+            Console.WriteLine("Pairing Student.ForeName With Dto.FirstName and Student.Id with Dto.RecordNumber");
+            mapper.Pair("ForeName", "FirstName");
+            mapper.Pair("Id", "RecordNumber");
+            mapper.Map(student, dto);
+            Console.WriteLine($"Student after mapping: {student}");
+            Console.WriteLine($"Dto after mapping: {dto}\r\n");
+        }
+
+        private static void DemoMapStudentToNewInstanceOfDtoWithPairing(Student student)
+        {
+            Console.WriteLine($"Demo Mapping Student to new instance of Dto with pairing.");
+            Mapper<Student, Dto> mapper = new Mapper<Student, Dto>();
+            Console.WriteLine("Pairing Student.ForeName With Dto.FirstName and Student.Id with Dto.RecordNumber");
+            mapper.Pair("ForeName", "FirstName");
+            mapper.Pair("Id", "RecordNumber");
+            Dto dto = mapper.Map(student);
+            Console.WriteLine($"Student after mapping: {student}");
+            Console.WriteLine($"New instance of Dto: {dto}\r\n");
         }
     }
 }

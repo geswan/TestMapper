@@ -11,17 +11,19 @@ namespace TestMapper
 
         public override string ToString()
         {
-            return "Student: " + ForeName + " " + LastName + " Dob " + Dob.ToShortDateString() + " Id " + Id ;
+            return "Student: ForeName=" + ForeName + " LastName=" + LastName + " Dob=" + Dob.ToShortDateString() + " Id=" + Id ;
         }
     }
         public class Dto
         {
-            public string ForeName { get; set; }
+            public string FirstName { get; set; }
             public string LastName { get; set; }
             public DateTime Dob { get; set; }
+        public int RecordNumber { get; set; }
         public override string ToString()
         {
-            return "Dto: " + ForeName + " " + LastName + " Dob " + Dob.ToShortDateString();
+            return "Dto: FirstName=" + FirstName + " LastName=" + LastName + " Dob=" + Dob.ToShortDateString()
+                +" RecordNumber="+RecordNumber;
         }
     }
 
