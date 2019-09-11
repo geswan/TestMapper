@@ -34,16 +34,16 @@ namespace MapperDemo
             DisplayInformation("", student, dto, false);
         }
 
-        private static void DisplayInformation(string prompt,Student student,Dto dto,bool isBefore)
+        private static void DisplayInformation(string prompt, Student student, Dto dto, bool isBefore)
         {
             string studentMsg = "Student before mapping: ";
             string dtoMsg = "Dto before mapping: ";
-            if(!isBefore)
+            if (!isBefore)
             {
-               studentMsg= studentMsg.Replace("before", "after");
+                studentMsg = studentMsg.Replace("before", "after");
                 dtoMsg = dtoMsg.Replace("before", "after");
             }
-           string formattedPrompt=string.IsNullOrEmpty(prompt)?prompt:"\n***"+prompt+"***\n\n";
+            string formattedPrompt = string.IsNullOrEmpty(prompt) ? prompt : "\n***" + prompt + "***\n\n";
             List<string> messages = new List<string>
             {
                 formattedPrompt,
@@ -56,7 +56,7 @@ namespace MapperDemo
             }
             Console.WriteLine();
         }
-        
+
 
 
 
