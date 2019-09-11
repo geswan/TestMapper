@@ -7,28 +7,27 @@ namespace MapperDemo
     {
         public string ForeName { get; set; } = Constants.StudentForeName;
         public string LastName { get; set; } = Constants.StudentLastName;
-        public DateTime Dob { get; set; }=DateTime.Parse(Constants.StudentDob, CultureInfo.CurrentCulture);
+        public DateTime Dob { get; set; } = DateTime.Parse(Constants.StudentDob, CultureInfo.CurrentCulture);
         public int Id { get; set; } = Constants.StudentId;
 
         public override string ToString()
         {
-            return "Student: ForeName=" + ForeName + " LastName=" + LastName + " Dob=" + Dob.ToShortDateString() + " Id=" + Id ;
+            return $"{"Student:",-9}{"ForeName=",-10}{ForeName,-10}LastName = {LastName,-6}Dob={Dob.ToShortDateString()} {"Id = ",-15}{Id}";
         }
     }
-        public class Dto
-        {
+    public class Dto
+    {
         public string FirstName { get; set; } = Constants.DtoFirstName;
         public string LastName { get; set; } = Constants.DtoLastName;
         public DateTime Dob { get; set; } = DateTime.Parse(Constants.DtoDob, CultureInfo.CurrentCulture);
         public int RecordNumber { get; set; } = Constants.DtoRecordNumber;
         public override string ToString()
         {
-            return "Dto: FirstName=" + FirstName + " LastName=" + LastName + " Dob=" + Dob.ToShortDateString()
-                +" RecordNumber="+RecordNumber;
+            return $"{"Dto:",-9}{"FirstName=",-10}{FirstName,-10}LastName = {LastName,-6}Dob={Dob.ToShortDateString()} {"RecordNumber = ",-15}{RecordNumber}";
         }
     }
 
- 
 
-    }
+
+}
 
