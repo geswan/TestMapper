@@ -87,14 +87,6 @@ namespace MapperTests
 			Assert.IsTrue(AreSharedPropsInClassAMatchedToThoseInClassB(a));
 		}
 
-        [TestMethod]
-        public void MapClassAMapsToNewInstanceOfClassB()
-        {
-            Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
-            TClassA a = CreateSampleClassA();
-            TClassB b = mapper.Map(a);
-            Assert.IsTrue(AreSharedPropsInClassBMatchedToThoseInClassA(b));
-        }
 
         [TestMethod]
         public void PairAddsATupleToMatchingProperties()
