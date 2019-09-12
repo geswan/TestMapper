@@ -56,10 +56,5 @@ namespace MapperDemo
             }
             Console.WriteLine();
         }
-
-
-
-
-
     }
 }
