@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 
 
 namespace Mapper
 {
-	public class Mapper<TClassA, TClassB> : IMapper<TClassA, TClassB>
+    public class Mapper<TClassA, TClassB> : IMapper<TClassA, TClassB>
 		where TClassA : class
 		where TClassB : class
 
