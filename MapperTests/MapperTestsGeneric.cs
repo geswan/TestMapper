@@ -15,13 +15,14 @@ namespace MapperTests
         protected abstract (string NameA, string NameB)[] GetArrayOfNamesToPair();
         protected abstract (string NameA, string NameB) Get2NamesToPairFromPropsWithDifferentTypes();
         protected abstract bool AreAllPropsUnchanged(TClassA a);
-        protected abstract bool AreUnsharedPropsUnchanged(TClassA a);
-        protected abstract bool AreSharedPropsInClassAMatchedToThoseInClassB(TClassA a);
         protected abstract bool AreAllPropsUnchanged(TClassB b);
-        protected abstract bool AreUnsharedPropsUnchanged(TClassB b);
-        protected abstract bool AreSharedPropsInClassBMatchedToThoseInClassA(TClassB b);
-        protected abstract bool ArePairedNamesMappedFromClassAToClassB(TClassB b);
-        protected abstract bool ArePairedNamesMappedFromClassBToClassA(TClassA a);
+        protected abstract bool AreUnpairedPropsUnchanged(TClassA a);
+         protected abstract bool AreUnpairedPropsUnchanged(TClassB b);
+        protected abstract bool ArePairedPropsMappedFromClassAToClassB(TClassB b);
+        protected abstract bool ArePairedPropsMappedFromClassBToClassA(TClassA a);
+        protected abstract bool AreSameNamePropsMappedFromClassBToClassA(TClassA a);
+        protected abstract bool AreSameNamePropsMappedFromClassAToClassB(TClassB b);
+
 
         [TestMethod]
         public void MapClassAClassBDoesNotChangeClassA()
@@ -50,17 +51,17 @@ namespace MapperTests
             TClassA a = CreateSampleClassA();
             TClassB b = CreateSampleClassB();
             mapper.Map(a, b);
-            Assert.IsTrue(AreUnsharedPropsUnchanged(b));
+            Assert.IsTrue(AreUnpairedPropsUnchanged(b));
         }
 
         [TestMethod]
-        public void MapClassAClassBSetsClassBsSharedPropertiesToClassAsSharedPropertiesValues()
+        public void MapClassAClassBMapsSameNamePropertyValuesFromClassAToClassB()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             TClassA a = CreateSampleClassA();
             TClassB b = CreateSampleClassB();
             mapper.Map(a, b);
-            Assert.IsTrue(AreSharedPropsInClassBMatchedToThoseInClassA(b));
+            Assert.IsTrue(AreSameNamePropsMappedFromClassAToClassB(b));
         }
 
         [TestMethod]
@@ -70,7 +71,7 @@ namespace MapperTests
             TClassA a = CreateSampleClassA();
             TClassB b = CreateSampleClassB();
             mapper.Map(b, a);
-            Assert.IsTrue(AreUnsharedPropsUnchanged(a));
+            Assert.IsTrue(AreUnpairedPropsUnchanged(a));
         }
 
         [TestMethod]
@@ -80,7 +81,7 @@ namespace MapperTests
             TClassA a = CreateSampleClassA();
             TClassB b = CreateSampleClassB();
             mapper.Map(b, a);
-            Assert.IsTrue(AreSharedPropsInClassAMatchedToThoseInClassB(a));
+            Assert.IsTrue(ArePairedPropsMappedFromClassBToClassA(a));
         }
 
         [TestMethod]
@@ -112,7 +113,7 @@ namespace MapperTests
             (string NameA, string NameB)[] namesArray = GetArrayOfNamesToPair();
             mapper.Pair(namesArray);
             mapper.Map(a, b);
-            Assert.IsTrue(ArePairedNamesMappedFromClassAToClassB(b));
+            Assert.IsTrue(ArePairedPropsMappedFromClassAToClassB(b));
         }
 
         [TestMethod]
@@ -124,7 +125,7 @@ namespace MapperTests
             (string NameA, string NameB)[] namesArray = GetArrayOfNamesToPair();
             mapper.Pair(namesArray);
             mapper.Map(b, a);
-            Assert.IsTrue(ArePairedNamesMappedFromClassBToClassA(a));
+            Assert.IsTrue(ArePairedPropsMappedFromClassBToClassA(a));
         }
 
         [TestMethod]                                 //test fail message
@@ -145,7 +146,7 @@ namespace MapperTests
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             (string NameA, string NameB) = Get2NamesToPairFromPropsWithDifferentTypes();
             mapper.Pair(NameA, NameB);
-
+           
         }
     }
 }

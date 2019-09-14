@@ -17,19 +17,18 @@ namespace Mapper
         private readonly PropertyInfo[] classBProps;
 
         public Mapper()
-		{
-			Type classAType = typeof(TClassA);
-			classAProps = classAType.GetProperties();
-			Type classBType = typeof(TClassB);
-			classBProps = classBType.GetProperties();
-			matchingProperties =
-			classAProps.Join(           // outer collection
-			  classBProps,             // inner collection
-			  a => a.Name, // outer key  
-			  b => b.Name,     // inner key 
-			  (a, b) => (a, b)//project into ValueTuple
-			  ).ToList();
-            
+        {
+            Type classAType = typeof(TClassA);
+            classAProps = classAType.GetProperties();
+            Type classBType = typeof(TClassB);
+            classBProps = classBType.GetProperties();
+            matchingProperties =
+            classAProps.Join(           // outer collection
+              classBProps,             // inner collection
+              a => a.Name, // outer key  
+              b => b.Name,     // inner key 
+              (a, b) => (a, b)//project into ValueTuple
+              ).ToList();
         }
 		public void Map(TClassA producer, TClassB consumer)
 		{

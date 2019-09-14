@@ -61,27 +61,27 @@ namespace MapperTests
                   b.RecordNumber == Constants.RecordNumberBValue &&
                   b.Date == classBDate &&
                   b.Employee == employeeB;
-        protected override bool AreUnsharedPropsUnchanged(ClassB b) => b.CodeName == Constants.CodeNameB &&
+        protected override bool AreUnpairedPropsUnchanged(ClassB b) => b.CodeName == Constants.CodeNameB &&
             b.RecordNumber == Constants.RecordNumberBValue;
 
-        protected override bool AreUnsharedPropsUnchanged(ClassA a) => a.Code == Constants.CodeA &&
+        protected override bool AreUnpairedPropsUnchanged(ClassA a) => a.Code == Constants.CodeA &&
             a.Id == Constants.IdAValue;
 
-        protected override bool AreSharedPropsInClassAMatchedToThoseInClassB(ClassA a) => a.Name == Constants.NameB &&
+        protected override bool AreSameNamePropsMappedFromClassBToClassA(ClassA a) => a.Name == Constants.NameB &&
                             a.Age == Constants.AgeB &&
                             a.Cash == Constants.CashB &&
                             a.Date == classBDate &&
                             a.Employee == employeeB;
 
-        protected override bool AreSharedPropsInClassBMatchedToThoseInClassA(ClassB b) => b.Name == Constants.NameA &&
+        protected override bool AreSameNamePropsMappedFromClassAToClassB(ClassB b) => b.Name == Constants.NameA &&
                             b.Age == Constants.AgeA &&
                             b.Cash == Constants.CashA &&
                             b.Date == classADate &&
                             b.Employee == employeeA;
-        protected override bool ArePairedNamesMappedFromClassAToClassB(ClassB b) => b.CodeName == Constants.CodeA &&
+        protected override bool ArePairedPropsMappedFromClassAToClassB(ClassB b) => b.CodeName == Constants.CodeA &&
                     b.RecordNumber == Constants.IdAValue;
 
-        protected override bool ArePairedNamesMappedFromClassBToClassA(ClassA a) => a.Code == Constants.CodeNameB &&
+        protected override bool ArePairedPropsMappedFromClassBToClassA(ClassA a) => a.Code == Constants.CodeNameB &&
                    a.Id == Constants.RecordNumberBValue;
         protected override (string NameA, string NameB) Get2NamesToPair()
         {
