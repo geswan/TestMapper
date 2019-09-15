@@ -46,58 +46,78 @@ namespace MapperTests
             return classB;
         }
 
-        protected override bool AreAllPropsUnchanged(ClassA a) => a.Name == Constants.NameA &&
-                  a.Age == Constants.AgeA &&
-                  a.Cash == Constants.CashA &&
-                  a.Code == Constants.CodeA &&
-                  a.Id == Constants.IdAValue &&
-                  a.Date == classADate &&
+        protected override bool AreAllPropsUnchanged(ClassA a, ClassA unmappedA)
+        {
+                return  a.Name == unmappedA.Name &&
+                  a.Age == unmappedA.Age &&
+                  a.Cash == unmappedA.Cash &&
+                  a.Code == unmappedA.Code &&
+                  a.Id == unmappedA.Id &&
+                  a.Date == unmappedA.Date &&
                   a.Employee == employeeA;
-
-        protected override bool AreAllPropsUnchanged(ClassB b) => b.Name == Constants.NameB &&
-                  b.Age == Constants.AgeB &&
-                  b.Cash == Constants.CashB &&
-                  b.CodeName == Constants.CodeNameB &&
-                  b.RecordNumber == Constants.RecordNumberBValue &&
-                  b.Date == classBDate &&
+        }
+        protected override bool AreAllPropsUnchanged(ClassB b, ClassB unmappedB)
+        {
+           return b.Name == unmappedB.Name &&
+                  b.Age == unmappedB.Age &&
+                  b.Cash == unmappedB.Cash &&
+                  b.CodeName == unmappedB.CodeName &&
+                  b.RecordNumber == unmappedB.RecordNumber &&
+                  b.Date == unmappedB.Date &&
                   b.Employee == employeeB;
-        protected override bool AreUnpairedPropsUnchanged(ClassB b) => b.CodeName == Constants.CodeNameB &&
-            b.RecordNumber == Constants.RecordNumberBValue;
-
-        protected override bool AreUnpairedPropsUnchanged(ClassA a) => a.Code == Constants.CodeA &&
-            a.Id == Constants.IdAValue;
-
-        protected override bool AreSameNamePropsMappedFromClassBToClassA(ClassA a) => a.Name == Constants.NameB &&
-                            a.Age == Constants.AgeB &&
-                            a.Cash == Constants.CashB &&
-                            a.Date == classBDate &&
-                            a.Employee == employeeB;
-
-        protected override bool AreSameNamePropsMappedFromClassAToClassB(ClassB b) => b.Name == Constants.NameA &&
-                            b.Age == Constants.AgeA &&
-                            b.Cash == Constants.CashA &&
-                            b.Date == classADate &&
-                            b.Employee == employeeA;
-        protected override bool ArePairedPropsMappedFromClassAToClassB(ClassB b) => b.CodeName == Constants.CodeA &&
-                    b.RecordNumber == Constants.IdAValue;
-
-        protected override bool ArePairedPropsMappedFromClassBToClassA(ClassA a) => a.Code == Constants.CodeNameB &&
-                   a.Id == Constants.RecordNumberBValue;
-        protected override (string NameA, string NameB) Get2NamesToPair()
+        }
+        protected override bool AreUnmatchedPropsUnchanged(ClassB b, ClassB unmappedB)
         {
-            return (Constants.CodeA, Constants.CodeNameB);
+            return b.CodeName == unmappedB.CodeName &&
+            b.RecordNumber == unmappedB.RecordNumber;
         }
 
-        protected override (string NameA, string NameB) Get2NamesToPairFromPropsWithDifferentTypes()
+        protected override bool AreUnmatchedPropsUnchanged(ClassA a, ClassA unmappedA)
         {
-            return (Constants.CodeA, Constants.RecordNumberB);
+          return  a.Code == unmappedA.Code &&
+            a.Id == unmappedA.Id;
         }
 
-        protected override (string NameA, string NameB)[] GetArrayOfNamesToPair()
+        protected override bool AreSameNamePropsMappedFromClassBToClassA(ClassA a,ClassB unmappedB) => a.Name == unmappedB.Name &&
+                            a.Age == unmappedB.Age &&
+                            a.Cash == unmappedB.Cash &&
+                            a.Date == unmappedB.Date &&
+                            a.Employee == unmappedB.Employee;
+
+        protected override bool AreSameNamePropsMappedFromClassAToClassB(ClassB b, ClassA unmappedA) => b.Name == unmappedA.Name &&
+                            b.Age == unmappedA.Age &&
+                            b.Cash == unmappedA.Cash &&
+                            b.Date == unmappedA.Date &&
+                            b.Employee == unmappedA.Employee;
+
+        protected override (string NameA, string NameB) Get2PropNamesToForceMatch()
+        {
+            return (nameof(ClassA.Code), nameof(ClassB.CodeName));
+        }
+
+
+        protected override bool AreForcedMatchedPropsMappedFromClassAToClassB(ClassB b,ClassA unmappedA)
+        {
+
+            return b.CodeName == unmappedA.Code;
+        }
+        protected override bool AreForcedMatchedPropsMappedFromClassBToClassA(ClassA a,ClassB unmappedB)
+        {
+            
+            return a.Code== unmappedB.CodeName;
+        }
+
+        protected override (string NameA, string NameB) Get2PropNamesToForceMatchFromPropsWithDifferentTypes()
+        {
+            return (nameof(ClassA.Code), nameof(ClassB.RecordNumber));
+        }
+
+        protected override (string NameA, string NameB)[] GetArrayOfPropNamesToForceMatch()
         {
             (string NameA, string NameB)[] names = new (string NameA, string NameB)[]
             {
-                 (Constants.CodeA, Constants.CodeNameB), (Constants.IdA,Constants.RecordNumberB)
+                  (nameof(ClassA.Code), nameof(ClassB.CodeName)),
+                  (nameof(ClassA.Id), nameof(ClassB.RecordNumber))
             };
             return names;
         }

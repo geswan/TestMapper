@@ -4,8 +4,8 @@
     {
         void Map(TClassA source, TClassB sink);
         void Map(TClassB source, TClassA sink);
-        void Pair(string propNameA, string propNameB);
-        void Pair((string propNameA, string propNameB)[] pairs);
+        void ForceMatch(string propNameA, string propNameB);
+        void ForceMatch((string propNameA, string propNameB)[] pairs);
 
     }
 }

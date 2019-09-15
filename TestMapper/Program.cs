@@ -28,8 +28,8 @@ namespace MapperDemo
         {
             DisplayInformation(Constants.PromptPairedMapStudentToDto, student, dto, true);
             Mapper<Student, Dto> mapper = new Mapper<Student, Dto>();
-            mapper.Pair(nameof(student.ForeName), nameof(dto.FirstName));
-            mapper.Pair(nameof(student.Id), nameof(dto.RecordNumber));
+            mapper.ForceMatch(nameof(student.ForeName), nameof(dto.FirstName));
+            mapper.ForceMatch(nameof(student.Id), nameof(dto.RecordNumber));
             mapper.Map(student, dto);
             DisplayInformation("", student, dto, false);
         }

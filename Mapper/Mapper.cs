@@ -48,7 +48,7 @@ namespace Mapper
 			}
 		}
 
-        public void Pair(string propNameA, string propNameB)
+        public void ForceMatch(string propNameA, string propNameB)
         {
             var propA = classAProps.FirstOrDefault(a => a.Name == propNameA);
             var propB = classBProps.FirstOrDefault(a => a.Name == propNameB);
@@ -59,13 +59,13 @@ namespace Mapper
             matchingProperties.Add((propA, propB));
         }
 
-        public void Pair((string propNameA, string propNameB)[] pairs)
+        public void ForceMatch((string propNameA, string propNameB)[] pairs)
         {
             if (pairs == null)
             throw new ArgumentNullException(nameof(pairs));
             foreach (var (propNameA, propNameB) in pairs)
             {
-                Pair(propNameA, propNameB);
+                ForceMatch(propNameA, propNameB);
             }
         }
         public int GetMappingsTotal() => matchingProperties.Count;
