@@ -96,9 +96,9 @@ namespace MapperTests
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             (string NameA, string NameB) = Get2PropNamesToForceMatch();
-            int mappings = mapper.GetMappingsTotal();
+            int mappings = mapper.GetMappingsTotal;
             mapper.ForceMatch(NameA, NameB);
-            Assert.IsTrue(mappings + 1 == mapper.GetMappingsTotal());
+            Assert.IsTrue(mappings + 1 == mapper.GetMappingsTotal);
         }
 
         [TestMethod]
@@ -106,9 +106,9 @@ namespace MapperTests
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             (string NameA, string NameB)[] namesArray = GetArrayOfPropNamesToForceMatch();
-            int mappings = mapper.GetMappingsTotal();
+            int mappings = mapper.GetMappingsTotal;
             mapper.ForceMatch(namesArray);
-            Assert.IsTrue(mappings + namesArray.Length == mapper.GetMappingsTotal());
+            Assert.IsTrue(mappings + namesArray.Length == mapper.GetMappingsTotal);
         }
 
         [TestMethod]
@@ -139,19 +139,19 @@ namespace MapperTests
         }
 
         [TestMethod]                                 //test fail message
-        [ExpectedException(typeof(ArgumentException), "An unmatched name was allowed")]
-        public void PairThrowsArgumentExceptionWhenPropNameNotFound()
+        [ExpectedException(typeof(ArgumentException), "Nonexistent property name was allowed")]
+        public void ForceMatchThrowsArgumentExceptionWhenPropNameNotFound()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             (string NameA, string NameB) = Get2PropNamesToForceMatch();
-            string unmatchedName = "*" + NameA;
-            mapper.ForceMatch(unmatchedName, NameB);
+            string illegalName = "*" + NameA;
+            mapper.ForceMatch(illegalName, NameB);
 
         }
 
         [TestMethod]                                 //test fail message
         [ExpectedException(typeof(ArgumentException), "Different property Types were allowed")]
-        public void PairThrowsArgumentExceptionWhenPairedTypesDoNotMatch()
+        public void ForceMatchThrowsArgumentExceptionWhenPairedTypesDoNotMatch()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             (string NameA, string NameB) = Get2PropNamesToForceMatchFromPropsWithDifferentTypes();

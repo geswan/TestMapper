@@ -14,7 +14,7 @@ namespace MapperDemo
             Dto dtoA = new Dto();
             Dto dtoB = new Dto();
             DemoMapStudentToDto(student, dtoA);
-            DemoMapStudentToDtoWithPairing(student, dtoB);
+            DemoMapStudentToDtoWithForcedMatching(student, dtoB);
             Console.ReadLine();
         }
         private static void DemoMapStudentToDto(Student student, Dto dto)
@@ -24,7 +24,7 @@ namespace MapperDemo
             mapper.Map(student, dto);
             DisplayInformation("", student, dto, false);
         }
-        private static void DemoMapStudentToDtoWithPairing(Student student, Dto dto)
+        private static void DemoMapStudentToDtoWithForcedMatching(Student student, Dto dto)
         {
             DisplayInformation(Constants.PromptPairedMapStudentToDto, student, dto, true);
             Mapper<Student, Dto> mapper = new Mapper<Student, Dto>();

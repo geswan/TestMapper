@@ -50,12 +50,14 @@ namespace Mapper
 
         public void ForceMatch(string propNameA, string propNameB)
         {
+            if (propNameA == null) throw new ArgumentNullException(nameof(propNameA));
+            if (propNameB == null) throw new ArgumentNullException(nameof(propNameB));
             var propA = classAProps.FirstOrDefault(a => a.Name == propNameA);
             var propB = classBProps.FirstOrDefault(a => a.Name == propNameB);
-            if (propA == null || propB == null)
-            throw new ArgumentException($"No match found for {propNameA}, {propNameB}");
+            if (propA == null) throw new ArgumentException($"Property named {propNameA} not found");
+            if (propB == null) throw new ArgumentException($"Property named {propNameB} not found");
             if(propA.PropertyType.FullName!= propB.PropertyType.FullName)
-                throw new ArgumentException($"The property types do not match {propNameA}, {propNameB}");
+            throw new ArgumentException($"The property types do not match {propNameA}, {propNameB}");
             matchingProperties.Add((propA, propB));
         }
 
@@ -68,7 +70,7 @@ namespace Mapper
                 ForceMatch(propNameA, propNameB);
             }
         }
-        public int GetMappingsTotal() => matchingProperties.Count;
+        public int GetMappingsTotal => matchingProperties.Count;
 
  
     }
