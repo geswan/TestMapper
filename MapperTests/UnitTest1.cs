@@ -48,23 +48,23 @@ namespace MapperTests
 
         protected override bool AreAllPropsUnchanged(ClassA a, ClassA unmappedA)
         {
-                return  a.Name == unmappedA.Name &&
-                  a.Age == unmappedA.Age &&
-                  a.Cash == unmappedA.Cash &&
-                  a.Code == unmappedA.Code &&
-                  a.Id == unmappedA.Id &&
-                  a.Date == unmappedA.Date &&
-                  a.Employee == employeeA;
+            return a.Name == unmappedA.Name &&
+              a.Age == unmappedA.Age &&
+              a.Cash == unmappedA.Cash &&
+              a.Code == unmappedA.Code &&
+              a.Id == unmappedA.Id &&
+              a.Date == unmappedA.Date &&
+              a.Employee == employeeA;
         }
         protected override bool AreAllPropsUnchanged(ClassB b, ClassB unmappedB)
         {
-           return b.Name == unmappedB.Name &&
-                  b.Age == unmappedB.Age &&
-                  b.Cash == unmappedB.Cash &&
-                  b.CodeName == unmappedB.CodeName &&
-                  b.RecordNumber == unmappedB.RecordNumber &&
-                  b.Date == unmappedB.Date &&
-                  b.Employee == employeeB;
+            return b.Name == unmappedB.Name &&
+                   b.Age == unmappedB.Age &&
+                   b.Cash == unmappedB.Cash &&
+                   b.CodeName == unmappedB.CodeName &&
+                   b.RecordNumber == unmappedB.RecordNumber &&
+                   b.Date == unmappedB.Date &&
+                   b.Employee == employeeB;
         }
         protected override bool AreUnmatchedPropsUnchanged(ClassB b, ClassB unmappedB)
         {
@@ -74,11 +74,11 @@ namespace MapperTests
 
         protected override bool AreUnmatchedPropsUnchanged(ClassA a, ClassA unmappedA)
         {
-          return  a.Code == unmappedA.Code &&
-            a.Id == unmappedA.Id;
+            return a.Code == unmappedA.Code &&
+              a.Id == unmappedA.Id;
         }
 
-        protected override bool AreSameNamePropsMappedFromClassBToClassA(ClassA a,ClassB unmappedB) => a.Name == unmappedB.Name &&
+        protected override bool AreSameNamePropsMappedFromClassBToClassA(ClassA a, ClassB unmappedB) => a.Name == unmappedB.Name &&
                             a.Age == unmappedB.Age &&
                             a.Cash == unmappedB.Cash &&
                             a.Date == unmappedB.Date &&
@@ -96,30 +96,23 @@ namespace MapperTests
         }
 
 
-        protected override bool AreForcedMatchedPropsMappedFromClassAToClassB(ClassB b,ClassA unmappedA)
-        {
-
-            return b.CodeName == unmappedA.Code;
-        }
-        protected override bool AreForcedMatchedPropsMappedFromClassBToClassA(ClassA a,ClassB unmappedB)
-        {
-            
-            return a.Code== unmappedB.CodeName;
-        }
-
         protected override (string NameA, string NameB) Get2PropNamesToForceMatchFromPropsWithDifferentTypes()
         {
+
             return (nameof(ClassA.Code), nameof(ClassB.RecordNumber));
         }
-
-        protected override (string NameA, string NameB)[] GetArrayOfPropNamesToForceMatch()
+        protected override ((string NameA, string NameB)[] Names, Func<ClassA, ClassB, bool> AreEqual) GetForcedMatchTestMetadata()
         {
             (string NameA, string NameB)[] names = new (string NameA, string NameB)[]
-            {
+          {
                   (nameof(ClassA.Code), nameof(ClassB.CodeName)),
                   (nameof(ClassA.Id), nameof(ClassB.RecordNumber))
-            };
-            return names;
+          };
+
+            bool areEqual(ClassA a, ClassB b) => a.Code == b.CodeName &&
+          a.Id == b.RecordNumber;
+            return (names, (Func<ClassA, ClassB, bool>)areEqual);
+
         }
     }
 }

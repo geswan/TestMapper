@@ -12,16 +12,14 @@ namespace MapperTests
         protected abstract TClassA CreateSampleClassA();
         protected abstract TClassB CreateSampleClassB();
         protected abstract (string NameA, string NameB) Get2PropNamesToForceMatch();
-        protected abstract (string NameA, string NameB)[] GetArrayOfPropNamesToForceMatch();
         protected abstract (string NameA, string NameB) Get2PropNamesToForceMatchFromPropsWithDifferentTypes();
-        protected abstract bool AreAllPropsUnchanged(TClassA a,TClassA unmappedA);
+        protected abstract bool AreAllPropsUnchanged(TClassA a, TClassA unmappedA);
         protected abstract bool AreAllPropsUnchanged(TClassB b, TClassB unmappedB);
         protected abstract bool AreUnmatchedPropsUnchanged(TClassA a, TClassA unmappedA);
-        protected abstract bool AreUnmatchedPropsUnchanged(TClassB b,TClassB unmappedB);
-        protected abstract bool AreForcedMatchedPropsMappedFromClassAToClassB(TClassB b, TClassA unmappedA);
-        protected abstract bool AreForcedMatchedPropsMappedFromClassBToClassA(TClassA a,TClassB unmappedB);
+        protected abstract bool AreUnmatchedPropsUnchanged(TClassB b, TClassB unmappedB);
         protected abstract bool AreSameNamePropsMappedFromClassBToClassA(TClassA a, TClassB b);
         protected abstract bool AreSameNamePropsMappedFromClassAToClassB(TClassB b, TClassA unmatchedA);
+        protected abstract ((string NameA, string NameB)[] Names, Func<TClassA, TClassB, bool> AreEqual) GetForcedMatchTestMetadata();
 
         [TestMethod]
         public void MapClassAClassBDoesNotChangeClassA()
@@ -31,7 +29,7 @@ namespace MapperTests
             TClassA unmappedA = CreateSampleClassA();
             TClassB b = CreateSampleClassB();
             mapper.Map(a, b);
-            Assert.IsTrue(AreAllPropsUnchanged(a,unmappedA));
+            Assert.IsTrue(AreAllPropsUnchanged(a, unmappedA));
         }
 
         [TestMethod]
@@ -40,9 +38,9 @@ namespace MapperTests
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             TClassA a = CreateSampleClassA();
             TClassB b = CreateSampleClassB();
-            TClassB unmappedB=CreateSampleClassB();
+            TClassB unmappedB = CreateSampleClassB();
             mapper.Map(b, a);
-            Assert.IsTrue(AreAllPropsUnchanged(b,unmappedB));
+            Assert.IsTrue(AreAllPropsUnchanged(b, unmappedB));
         }
 
         [TestMethod]
@@ -53,7 +51,7 @@ namespace MapperTests
             TClassB b = CreateSampleClassB();
             TClassB unmappedB = CreateSampleClassB();
             mapper.Map(a, b);
-            Assert.IsTrue(AreUnmatchedPropsUnchanged(b,unmappedB));
+            Assert.IsTrue(AreUnmatchedPropsUnchanged(b, unmappedB));
         }
 
         [TestMethod]
@@ -64,7 +62,7 @@ namespace MapperTests
             TClassA unmappedA = CreateSampleClassA();
             TClassB b = CreateSampleClassB();
             mapper.Map(b, a);
-            Assert.IsTrue(AreUnmatchedPropsUnchanged(a,unmappedA));
+            Assert.IsTrue(AreUnmatchedPropsUnchanged(a, unmappedA));
         }
 
         [TestMethod]
@@ -75,10 +73,10 @@ namespace MapperTests
             TClassA unmappedA = CreateSampleClassA();
             TClassB b = CreateSampleClassB();
             mapper.Map(a, b);
-            Assert.IsTrue(AreSameNamePropsMappedFromClassAToClassB(b,unmappedA));
+            Assert.IsTrue(AreSameNamePropsMappedFromClassAToClassB(b, unmappedA));
         }
 
- 
+
 
         [TestMethod]
         public void MapClassBClassAMapsSameNamePropertyValuesFromClassBToClassA()
@@ -88,7 +86,7 @@ namespace MapperTests
             TClassB b = CreateSampleClassB();
             TClassB unmappedB = CreateSampleClassB();
             mapper.Map(b, a);
-            Assert.IsTrue(AreSameNamePropsMappedFromClassBToClassA(a,unmappedB));
+            Assert.IsTrue(AreSameNamePropsMappedFromClassBToClassA(a, unmappedB));
         }
 
         [TestMethod]
@@ -105,10 +103,10 @@ namespace MapperTests
         public void ForceMatchAddsArrayCountTuplesToMatchingProperties()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
-            (string NameA, string NameB)[] namesArray = GetArrayOfPropNamesToForceMatch();
+            var (Names, _) = GetForcedMatchTestMetadata();
             int mappings = mapper.GetMappingsTotal;
-            mapper.ForceMatch(namesArray);
-            Assert.IsTrue(mappings + namesArray.Length == mapper.GetMappingsTotal);
+            mapper.ForceMatch(Names);
+            Assert.IsTrue(mappings + Names.Length == mapper.GetMappingsTotal);
         }
 
         [TestMethod]
@@ -118,11 +116,10 @@ namespace MapperTests
             TClassA a = CreateSampleClassA();
             TClassA unmappedA = CreateSampleClassA();
             TClassB b = CreateSampleClassB();
-           
-            (string NameA, string NameB)[] namesArray = GetArrayOfPropNamesToForceMatch();
-            mapper.ForceMatch(namesArray);
+            var (Names, AreEqual) = GetForcedMatchTestMetadata();
+            mapper.ForceMatch(Names);
             mapper.Map(a, b);
-            Assert.IsTrue(AreForcedMatchedPropsMappedFromClassAToClassB(b,unmappedA));
+            Assert.IsTrue(AreEqual(unmappedA, b));
         }
 
         [TestMethod]
@@ -132,10 +129,10 @@ namespace MapperTests
             TClassA a = CreateSampleClassA();
             TClassB b = CreateSampleClassB();
             TClassB unmappedB = CreateSampleClassB();
-            (string NameA, string NameB)[] namesArray = GetArrayOfPropNamesToForceMatch();
-            mapper.ForceMatch(namesArray);
+            var (Names, AreEqual) = GetForcedMatchTestMetadata();
+            mapper.ForceMatch(Names);
             mapper.Map(b, a);
-            Assert.IsTrue(AreForcedMatchedPropsMappedFromClassBToClassA(a,unmappedB));
+            Assert.IsTrue(AreEqual(a, unmappedB));
         }
 
         [TestMethod]                                 //test fail message
@@ -156,7 +153,7 @@ namespace MapperTests
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             (string NameA, string NameB) = Get2PropNamesToForceMatchFromPropsWithDifferentTypes();
             mapper.ForceMatch(NameA, NameB);
-           
+
         }
     }
 }
