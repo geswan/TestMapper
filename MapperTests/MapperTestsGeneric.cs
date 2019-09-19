@@ -17,8 +17,8 @@ namespace MapperTests
         protected abstract bool AreAllPropsUnchanged(TClassB b, TClassB unmappedB);
         protected abstract bool AreUnmatchedPropsUnchanged(TClassA a, TClassA unmappedA);
         protected abstract bool AreUnmatchedPropsUnchanged(TClassB b, TClassB unmappedB);
-        protected abstract bool AreSameNamePropsMappedFromClassBToClassA(TClassA a, TClassB b);
-        protected abstract bool AreSameNamePropsMappedFromClassAToClassB(TClassB b, TClassA unmatchedA);
+        protected abstract bool AreSameNamePropsMappedFromClassBToClassA(TClassA a, TClassB unmappedB);
+        protected abstract bool AreSameNamePropsMappedFromClassAToClassB(TClassB b, TClassA unmappedA);
         protected abstract ((string NameA, string NameB)[] Names, Func<TClassA, TClassB, bool> AreEqual) GetForcedMatchTestMetadata();
         protected abstract (string NameB, Func<TClassB, TClassB, bool> AreEqual) GetExcludedMatchTestMetadata();
 
@@ -175,7 +175,7 @@ namespace MapperTests
         public void MapClassAClassBWithExclusionReturnsFalseIfNotFound()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
-            var (Name, AreEqual) = GetExcludedMatchTestMetadata();
+            var (Name, _) = GetExcludedMatchTestMetadata();
             var illegalName = "*" + Name;
             bool isSuccessful=mapper.Exclude(illegalName);
             Assert.IsFalse(isSuccessful);

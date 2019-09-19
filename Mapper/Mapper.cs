@@ -36,7 +36,7 @@ namespace Mapper
             foreach (var (classAInfo, classBInfo) in matchingProperties)
             {
                 if (classAInfo.PropertyType.FullName != classBInfo.PropertyType.FullName)
-                    throw new InvalidOperationException($"The property types do not match {classAInfo.Name}, {classBInfo.Name}");
+                    throw new InvalidOperationException($"{Constants.NoMatchPropTypes} {classAInfo.Name}, {classBInfo.Name}");
                 classBInfo.SetValue(consumer, classAInfo.GetValue(producer));
             }
         }
@@ -46,7 +46,7 @@ namespace Mapper
             foreach (var (classAInfo, classBInfo) in matchingProperties)
             {
                 if (classAInfo.PropertyType.FullName != classBInfo.PropertyType.FullName)
-                    throw new InvalidOperationException($"The property types do not match {classBInfo.Name}, {classAInfo.Name}");
+                    throw new InvalidOperationException($"{Constants.NoMatchPropTypes} {classBInfo.Name}, {classAInfo.Name}");
                 classAInfo.SetValue(consumer, classBInfo.GetValue(producer));
             }
         }
@@ -55,10 +55,10 @@ namespace Mapper
         {
             var propA = classAProps.FirstOrDefault(a => a.Name == propNameA) ;
             var propB = classBProps.FirstOrDefault(a => a.Name == propNameB);
-            if (propA == null) throw new ArgumentException($"Property named {nameof(propNameA)} is null or not found");
-            if (propB == null) throw new ArgumentException($"Property named {nameof(propNameB)} is null or not found");
+            if (propA == null) throw new ArgumentException($"{Constants.PropNullORMissing} {nameof(propNameA)}");
+            if (propB == null) throw new ArgumentException($"{Constants.PropNullORMissing} {nameof(propNameB)}");
             if (propA.PropertyType.FullName != propB.PropertyType.FullName)
-                throw new ArgumentException($"The property types do not match {propNameA}, {propNameB}");
+                throw new ArgumentException($"{Constants.NoMatchPropTypes} {propNameA}, {propNameB}");
             matchingProperties.Add((propA, propB));
         }
 
