@@ -20,6 +20,7 @@ namespace MapperTests
         protected abstract bool AreSameNamePropsMappedFromClassBToClassA(TClassA a, TClassB b);
         protected abstract bool AreSameNamePropsMappedFromClassAToClassB(TClassB b, TClassA unmatchedA);
         protected abstract ((string NameA, string NameB)[] Names, Func<TClassA, TClassB, bool> AreEqual) GetForcedMatchTestMetadata();
+        protected abstract (string NameB, Func<TClassB, TClassB, bool> AreEqual) GetExcludedMatchTestMetadata();
 
         [TestMethod]
         public void MapClassAClassBDoesNotChangeClassA()
@@ -136,7 +137,7 @@ namespace MapperTests
         }
 
         [TestMethod]                                 //test fail message
-        [ExpectedException(typeof(ArgumentException), "Nonexistent property name was allowed")]
+        [ExpectedException(typeof(ArgumentException), "Non-existent property name was allowed")]
         public void ForceMatchThrowsArgumentExceptionWhenPropNameNotFound()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
@@ -148,12 +149,45 @@ namespace MapperTests
 
         [TestMethod]                                 //test fail message
         [ExpectedException(typeof(ArgumentException), "Different property Types were allowed")]
-        public void ForceMatchThrowsArgumentExceptionWhenPairedTypesDoNotMatch()
+        public void ForceMatchThrowsArgumentExceptionWhenMatchedTypesDoNotMatch()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             (string NameA, string NameB) = Get2PropNamesToForceMatchFromPropsWithDifferentTypes();
             mapper.ForceMatch(NameA, NameB);
 
+        }
+
+        [TestMethod]
+        public void MapClassAClassBWithExclusionDoesNotMapExcludedProp()
+        {
+            Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
+            TClassA a = CreateSampleClassA();
+            TClassB b = CreateSampleClassB();
+            TClassB unmappedB = CreateSampleClassB();
+            var (Name, AreEqual) = GetExcludedMatchTestMetadata();
+            mapper.Exclude(Name);
+            mapper.Map(a, b);
+            Assert.IsTrue(AreEqual(b, unmappedB));
+        }
+
+
+        [TestMethod]
+        public void MapClassAClassBWithExclusionReturnsFalseIfNotFound()
+        {
+            Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
+            var (Name, AreEqual) = GetExcludedMatchTestMetadata();
+            var illegalName = "*" + Name;
+            bool isSuccessful=mapper.Exclude(illegalName);
+            Assert.IsFalse(isSuccessful);
+        }
+
+        [TestMethod]
+        public void MapClassAClassBWithExclusionReturnsTrueIfFound()
+        {
+            Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
+            var (Name, _) = GetExcludedMatchTestMetadata();
+            bool isSuccessful = mapper.Exclude(Name);
+            Assert.IsTrue(isSuccessful);
         }
     }
 }

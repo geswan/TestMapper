@@ -5,7 +5,8 @@ namespace MapperDemo
     public static class Constants
     {
         public const string PromptMapStudentToDto = "Mapping Student To Dto with matching property names only";
-        public const string PromptPairedMapStudentToDto = "Mapping Student To Dto with forced pairing ForeName/FirstName Id/RecordNumber";
+        public const string PromptForcedMapStudentToDto = "Mapping Student To Dto with forced pairing ForeName/FirstName Id/RecordNumber";
+        public const string PromptMapStudentToDtoWithExclusion = "Excluding LastName From Mapping";
         public const int Alignment = -25;//left align min length 25
         public const string StudentForeName = "Anne";
         public const string StudentLastName = "Other";

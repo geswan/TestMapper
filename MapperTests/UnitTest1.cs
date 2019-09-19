@@ -111,8 +111,14 @@ namespace MapperTests
 
             bool areEqual(ClassA a, ClassB b) => a.Code == b.CodeName &&
           a.Id == b.RecordNumber;
-            return (names, (Func<ClassA, ClassB, bool>)areEqual);
+            return (names, areEqual);
 
+        }
+
+        protected override (string NameB, Func<ClassB, ClassB, bool> AreEqual) GetExcludedMatchTestMetadata()
+        {
+            bool areEqual(ClassB b, ClassB unMatchedB) => b.Age == unMatchedB.Age;
+            return (nameof(ClassB.Age),  areEqual);
         }
     }
 }

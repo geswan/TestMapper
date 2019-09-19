@@ -9,29 +9,42 @@ namespace MapperDemo
     {
         public static void Main()
         {
-
-            Student student = new Student();
-            Dto dtoA = new Dto();
-            Dto dtoB = new Dto();
-            DemoMapStudentToDto(student, dtoA);
-            DemoMapStudentToDtoWithForcedMatching(student, dtoB);
+            DemoMapStudentToDto();
+            DemoMapStudentToDtoWithForcedMatching();
+            DemoMapStudentToDtoWithExcludedMatching();
             Console.ReadLine();
         }
-        private static void DemoMapStudentToDto(Student student, Dto dto)
+
+        private static void DemoMapStudentToDtoWithExcludedMatching()
         {
+            Student student = new Student();
+            Dto dto = new Dto();
+            DisplayInformation(Constants.PromptMapStudentToDtoWithExclusion, student, dto, true);
+            Mapper < Student, Dto > mapper = new Mapper<Student, Dto>();
+            mapper.Exclude(nameof(Dto.LastName));
+            mapper.Map(student, dto);
+            DisplayInformation("", student, dto, false);
+        }
+        private static void DemoMapStudentToDto()
+        {
+            Student student = new Student();
+            Dto dto = new Dto();
             DisplayInformation(Constants.PromptMapStudentToDto, student, dto, true);
             Mapper<Student, Dto> mapper = new Mapper<Student, Dto>();
             mapper.Map(student, dto);
             DisplayInformation("", student, dto, false);
+
         }
-        private static void DemoMapStudentToDtoWithForcedMatching(Student student, Dto dto)
+        private static void DemoMapStudentToDtoWithForcedMatching()
         {
-            DisplayInformation(Constants.PromptPairedMapStudentToDto, student, dto, true);
+            Student student = new Student();
+            Dto dto = new Dto();
+            DisplayInformation(Constants.PromptForcedMapStudentToDto, student, dto, true);
             Mapper<Student, Dto> mapper = new Mapper<Student, Dto>();
             mapper.ForceMatch(nameof(student.ForeName), nameof(dto.FirstName));
             mapper.ForceMatch(nameof(student.Id), nameof(dto.RecordNumber));
             mapper.Map(student, dto);
-            DisplayInformation("", student, dto, false);
+           DisplayInformation("", student, dto, false);
         }
 
         private static void DisplayInformation(string prompt, Student student, Dto dto, bool isBefore)

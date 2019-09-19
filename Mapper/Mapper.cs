@@ -6,6 +6,7 @@ using System.Reflection;
 
 namespace Mapper
 {
+   
     public class Mapper<TClassA, TClassB> : IMapper<TClassA, TClassB>
         where TClassA : class
         where TClassB : class
@@ -52,10 +53,10 @@ namespace Mapper
 
         public void ForceMatch(string propNameA, string propNameB)
         {
-            var propA = classAProps.FirstOrDefault(a => a.Name == propNameA);
+            var propA = classAProps.FirstOrDefault(a => a.Name == propNameA) ;
             var propB = classBProps.FirstOrDefault(a => a.Name == propNameB);
-            if (propA == null) throw new ArgumentException($"Property named {propNameA} not found");
-            if (propB == null) throw new ArgumentException($"Property named {propNameB} not found");
+            if (propA == null) throw new ArgumentException($"Property named {nameof(propNameA)} is null or not found");
+            if (propB == null) throw new ArgumentException($"Property named {nameof(propNameB)} is null or not found");
             if (propA.PropertyType.FullName != propB.PropertyType.FullName)
                 throw new ArgumentException($"The property types do not match {propNameA}, {propNameB}");
             matchingProperties.Add((propA, propB));
@@ -69,6 +70,12 @@ namespace Mapper
             {
                 ForceMatch(propNameA, propNameB);
             }
+        }
+
+        public bool Exclude(string propName)
+        {
+            var target = matchingProperties.FirstOrDefault(p => p.classA.Name == propName||p.classB.Name==propName);
+            return matchingProperties.Remove(target);
         }
         public int GetMappingsTotal => matchingProperties.Count;
 
