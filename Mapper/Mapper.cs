@@ -55,8 +55,8 @@ namespace Mapper
         {
             var propA = classAProps.FirstOrDefault(a => a.Name == propNameA) ;
             var propB = classBProps.FirstOrDefault(a => a.Name == propNameB);
-            if (propA == null) throw new ArgumentException($"{Constants.PropNullORMissing} {nameof(propNameA)}");
-            if (propB == null) throw new ArgumentException($"{Constants.PropNullORMissing} {nameof(propNameB)}");
+            if (propA == null) throw new ArgumentException($"{Constants.PropNullOrMissing} {nameof(propNameA)}");
+            if (propB == null) throw new ArgumentException($"{Constants.PropNullOrMissing} {nameof(propNameB)}");
             if (propA.PropertyType.FullName != propB.PropertyType.FullName)
                 throw new ArgumentException($"{Constants.NoMatchPropTypes} {propNameA}, {propNameB}");
             matchingProperties.Add((propA, propB));

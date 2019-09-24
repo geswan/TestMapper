@@ -10,6 +10,6 @@ namespace Mapper
     {
         public const string NoMatchPropTypes = "The property Types do not match";
         public const string NoMatchPropNames = "The property Names do not match";
-        public const string PropNullORMissing = "The property is null or not Found";
+        public const string PropNullOrMissing = "The property is null or not Found";
     }
 }
