@@ -78,13 +78,13 @@ namespace MapperTests
               a.Id == unmappedA.Id;
         }
 
-        protected override bool AreSameNamePropsMappedFromClassBToClassA(ClassA a, ClassB unmappedB) => a.Name == unmappedB.Name &&
+        protected override bool AreSameNamePropsMappedFromBtoA(ClassA a, ClassB unmappedB) => a.Name == unmappedB.Name &&
                             a.Age == unmappedB.Age &&
                             a.Cash == unmappedB.Cash &&
                             a.Date == unmappedB.Date &&
                             a.Employee == unmappedB.Employee;
 
-        protected override bool AreSameNamePropsMappedFromClassAToClassB(ClassB b, ClassA unmappedA) => b.Name == unmappedA.Name &&
+        protected override bool AreSameNamePropsMappedFromAtoB(ClassB b, ClassA unmappedA) => b.Name == unmappedA.Name &&
                             b.Age == unmappedA.Age &&
                             b.Cash == unmappedA.Cash &&
                             b.Date == unmappedA.Date &&

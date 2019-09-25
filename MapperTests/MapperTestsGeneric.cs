@@ -17,13 +17,13 @@ namespace MapperTests
         protected abstract bool AreAllPropsUnchanged(TClassB b, TClassB unmappedB);
         protected abstract bool AreUnmatchedPropsUnchanged(TClassA a, TClassA unmappedA);
         protected abstract bool AreUnmatchedPropsUnchanged(TClassB b, TClassB unmappedB);
-        protected abstract bool AreSameNamePropsMappedFromClassBToClassA(TClassA a, TClassB unmappedB);
-        protected abstract bool AreSameNamePropsMappedFromClassAToClassB(TClassB b, TClassA unmappedA);
+        protected abstract bool AreSameNamePropsMappedFromBtoA(TClassA a, TClassB unmappedB);
+        protected abstract bool AreSameNamePropsMappedFromAtoB(TClassB b, TClassA unmappedA);
         protected abstract ((string NameA, string NameB)[] Names, Func<TClassA, TClassB, bool> AreEqual) GetForcedMatchTestMetadata();
         protected abstract (string NameB, Func<TClassB, TClassB, bool> AreEqual) GetExcludedMatchTestMetadata();
 
         [TestMethod]
-        public void MapClassAClassBDoesNotChangeClassA()
+        public void MapAtoBDoesNotChangeA()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             TClassA a = CreateSampleClassA();
@@ -34,7 +34,7 @@ namespace MapperTests
         }
 
         [TestMethod]
-        public void MapClassBClassADoesNotChangeClassB()
+        public void MapBtoADoesNotChangeB()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             TClassA a = CreateSampleClassA();
@@ -45,7 +45,7 @@ namespace MapperTests
         }
 
         [TestMethod]
-        public void MapClassAClassBDoesNotChangeClassBsUnmatchedProperties()
+        public void MapAtoBDoesNotChangeBsUnmatchedProperties()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             TClassA a = CreateSampleClassA();
@@ -56,7 +56,7 @@ namespace MapperTests
         }
 
         [TestMethod]
-        public void MapClassBClassADoesNotChangeClassAsUnmatchedProperties()
+        public void MapBtoADoesNotChangeUnmatchedPropertiesOfA()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             TClassA a = CreateSampleClassA();
@@ -67,27 +67,27 @@ namespace MapperTests
         }
 
         [TestMethod]
-        public void MapClassAClassBMapsSameNamePropertyValuesFromClassAToClassB()
+        public void MapAtoBMapsSameNamePropertyValuesFromAtoB()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             TClassA a = CreateSampleClassA();
             TClassA unmappedA = CreateSampleClassA();
             TClassB b = CreateSampleClassB();
             mapper.Map(a, b);
-            Assert.IsTrue(AreSameNamePropsMappedFromClassAToClassB(b, unmappedA));
+            Assert.IsTrue(AreSameNamePropsMappedFromAtoB(b, unmappedA));
         }
 
 
 
         [TestMethod]
-        public void MapClassBClassAMapsSameNamePropertyValuesFromClassBToClassA()
+        public void MapBtoAMapsSameNamePropertyValuesFromBtoA()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             TClassA a = CreateSampleClassA();
             TClassB b = CreateSampleClassB();
             TClassB unmappedB = CreateSampleClassB();
             mapper.Map(b, a);
-            Assert.IsTrue(AreSameNamePropsMappedFromClassBToClassA(a, unmappedB));
+            Assert.IsTrue(AreSameNamePropsMappedFromBtoA(a, unmappedB));
         }
 
         [TestMethod]
@@ -111,7 +111,7 @@ namespace MapperTests
         }
 
         [TestMethod]
-        public void MapClassAClassBWithForcingMapsForcedMachedPropsFromAToB()
+        public void MapAtoBWithForcingMapsForcedMachedPropsFromAToB()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             TClassA a = CreateSampleClassA();
@@ -124,7 +124,7 @@ namespace MapperTests
         }
 
         [TestMethod]
-        public void MapClassBClassAWithForcingMapsForcedMappedPropsFromBToA()
+        public void MapBCtoAWithForcingMapsForcedMappedPropsFromBToA()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             TClassA a = CreateSampleClassA();
@@ -158,7 +158,7 @@ namespace MapperTests
         }
 
         [TestMethod]
-        public void MapClassAClassBWithExclusionDoesNotMapExcludedProp()
+        public void MapAtoBWithExclusionDoesNotMapExcludedProp()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             TClassA a = CreateSampleClassA();
@@ -172,7 +172,7 @@ namespace MapperTests
 
 
         [TestMethod]
-        public void MapClassAClassBWithExclusionReturnsFalseIfNotFound()
+        public void MapAtoBWithExclusionReturnsFalseIfNotFound()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             var (Name, _) = GetExcludedMatchTestMetadata();
@@ -182,7 +182,7 @@ namespace MapperTests
         }
 
         [TestMethod]
-        public void MapClassAClassBWithExclusionReturnsTrueIfFound()
+        public void MapAtoBWithExclusionReturnsTrueIfFound()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             var (Name, _) = GetExcludedMatchTestMetadata();
