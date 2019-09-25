@@ -45,7 +45,7 @@ namespace MapperTests
         }
 
         [TestMethod]
-        public void MapAtoBDoesNotChangeBsUnmatchedProperties()
+        public void MapAtoBDoesNotChangeUnmatchedPropertiesOfA()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             TClassA a = CreateSampleClassA();
@@ -124,7 +124,7 @@ namespace MapperTests
         }
 
         [TestMethod]
-        public void MapBCtoAWithForcingMapsForcedMappedPropsFromBToA()
+        public void MapBtoAWithForcingMapsForcedMappedPropsFromBToA()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             TClassA a = CreateSampleClassA();
@@ -149,7 +149,7 @@ namespace MapperTests
 
         [TestMethod]                                 //test fail message
         [ExpectedException(typeof(ArgumentException), "Different property Types were allowed")]
-        public void ForceMatchThrowsArgumentExceptionWhenMatchedTypesDoNotMatch()
+        public void ForceMatchThrowsArgumentExceptionWhenMatchTypesDoNotMatch()
         {
             Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
             (string NameA, string NameB) = Get2PropNamesToForceMatchFromPropsWithDifferentTypes();
