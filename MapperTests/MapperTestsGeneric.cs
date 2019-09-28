@@ -19,7 +19,6 @@ namespace MapperTests
         protected abstract bool AreUnmatchedPropsUnchanged(TClassB b, TClassB unmappedB);
         protected abstract bool AreSameNamePropsMappedFromBtoA(TClassA a, TClassB unmappedB);
         protected abstract bool AreSameNamePropsMappedFromAtoB(TClassB b, TClassA unmappedA);
-        protected abstract ((string NameA, string NameB)[] Names, Func<TClassA, TClassB, bool> AreEqual) GetForcedMatchTestMetadata();
         protected abstract (string NameB, Func<TClassB, TClassB, bool> AreEqual) GetExcludedMatchTestMetadata();
 
         [TestMethod]
@@ -100,41 +99,6 @@ namespace MapperTests
             Assert.IsTrue(mappings + 1 == mapper.GetMappingsTotal);
         }
 
-        [TestMethod]
-        public void ForceMatchAddsArrayCountTuplesToMatchingProperties()
-        {
-            Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
-            var (Names, _) = GetForcedMatchTestMetadata();
-            int mappings = mapper.GetMappingsTotal;
-            mapper.ForceMatch(Names);
-            Assert.IsTrue(mappings + Names.Length == mapper.GetMappingsTotal);
-        }
-
-        [TestMethod]
-        public void MapAtoBWithForcingMapsForcedMachedPropsFromAToB()
-        {
-            Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
-            TClassA a = CreateSampleClassA();
-            TClassA unmappedA = CreateSampleClassA();
-            TClassB b = CreateSampleClassB();
-            var (Names, AreEqual) = GetForcedMatchTestMetadata();
-            mapper.ForceMatch(Names);
-            mapper.Map(a, b);
-            Assert.IsTrue(AreEqual(unmappedA, b));
-        }
-
-        [TestMethod]
-        public void MapBtoAWithForcingMapsForcedMappedPropsFromBToA()
-        {
-            Mapper<TClassA, TClassB> mapper = new Mapper<TClassA, TClassB>();
-            TClassA a = CreateSampleClassA();
-            TClassB b = CreateSampleClassB();
-            TClassB unmappedB = CreateSampleClassB();
-            var (Names, AreEqual) = GetForcedMatchTestMetadata();
-            mapper.ForceMatch(Names);
-            mapper.Map(b, a);
-            Assert.IsTrue(AreEqual(a, unmappedB));
-        }
 
         [TestMethod]                                 //test fail message
         [ExpectedException(typeof(ArgumentException), "Non-existent property name was allowed")]

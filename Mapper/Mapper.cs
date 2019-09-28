@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-
 namespace Mapper
 {
-   
+
     public class Mapper<TClassA, TClassB> : IMapper<TClassA, TClassB>
         where TClassA : class
         where TClassB : class
-
 
     {
         private readonly List<(PropertyInfo classA, PropertyInfo classB)> matchingProperties;
@@ -53,32 +51,23 @@ namespace Mapper
 
         public void ForceMatch(string propNameA, string propNameB)
         {
-            var propA = classAProps.FirstOrDefault(a => a.Name == propNameA) ;
+            var propA = classAProps.FirstOrDefault(a => a.Name == propNameA);
             var propB = classBProps.FirstOrDefault(a => a.Name == propNameB);
-            if (propA == null) throw new ArgumentException($"{Constants.PropNullOrMissing} {nameof(propNameA)}");
-            if (propB == null) throw new ArgumentException($"{Constants.PropNullOrMissing} {nameof(propNameB)}");
+            if (propA == null)
+                throw new ArgumentException($"{Constants.PropNullOrMissing} {nameof(propNameA)}");
+            if (propB == null)
+                throw new ArgumentException($"{Constants.PropNullOrMissing} {nameof(propNameB)}");
             if (propA.PropertyType.FullName != propB.PropertyType.FullName)
                 throw new ArgumentException($"{Constants.NoMatchPropTypes} {propNameA}, {propNameB}");
             matchingProperties.Add((propA, propB));
         }
-
-        public void ForceMatch((string propNameA, string propNameB)[] pairs)
-        {
-            if (pairs == null)
-                throw new ArgumentNullException(nameof(pairs));
-            foreach (var (propNameA, propNameB) in pairs)
-            {
-                ForceMatch(propNameA, propNameB);
-            }
-        }
-
         public bool Exclude(string propName)
         {
-            var target = matchingProperties.FirstOrDefault(p => p.classA.Name == propName||p.classB.Name==propName);
+            var target = matchingProperties.FirstOrDefault(p =>
+            p.classA.Name == propName || p.classB.Name == propName);
             return matchingProperties.Remove(target);
         }
         public int GetMappingsTotal => matchingProperties.Count;
-
 
     }
 }

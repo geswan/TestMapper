@@ -101,20 +101,7 @@ namespace MapperTests
 
             return (nameof(ClassA.Code), nameof(ClassB.RecordNumber));
         }
-        protected override ((string NameA, string NameB)[] Names, Func<ClassA, ClassB, bool> AreEqual) GetForcedMatchTestMetadata()
-        {
-            (string NameA, string NameB)[] names = new (string NameA, string NameB)[]
-          {
-                  (nameof(ClassA.Code), nameof(ClassB.CodeName)),
-                  (nameof(ClassA.Id), nameof(ClassB.RecordNumber))
-          };
-
-            bool areEqual(ClassA a, ClassB b) => a.Code == b.CodeName &&
-          a.Id == b.RecordNumber;
-            return (names, areEqual);
-
-        }
-
+ 
         protected override (string NameB, Func<ClassB, ClassB, bool> AreEqual) GetExcludedMatchTestMetadata()
         {
             bool areEqual(ClassB b, ClassB unMatchedB) => b.Age == unMatchedB.Age;
