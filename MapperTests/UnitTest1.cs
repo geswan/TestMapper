@@ -101,8 +101,8 @@ namespace MapperTests
 
             return (nameof(ClassA.Code), nameof(ClassB.RecordNumber));
         }
- 
-        protected override (string NameB, Func<ClassB, ClassB, bool> AreEqual) GetExcludedMatchTestMetadata()
+
+        protected override (string PropBName, Func<ClassB, ClassB, bool> AreEqual) GetExcludedMatchTestMetadata()
         {
             bool areEqual(ClassB b, ClassB unMatchedB) => b.Age == unMatchedB.Age;
             return (nameof(ClassB.Age),  areEqual);

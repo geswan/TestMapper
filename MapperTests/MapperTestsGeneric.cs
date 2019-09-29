@@ -19,7 +19,7 @@ namespace MapperTests
         protected abstract bool AreUnmatchedPropsUnchanged(TClassB b, TClassB unmappedB);
         protected abstract bool AreSameNamePropsMappedFromBtoA(TClassA a, TClassB unmappedB);
         protected abstract bool AreSameNamePropsMappedFromAtoB(TClassB b, TClassA unmappedA);
-        protected abstract (string NameB, Func<TClassB, TClassB, bool> AreEqual) GetExcludedMatchTestMetadata();
+        protected abstract (string PropBName, Func<TClassB, TClassB, bool> AreEqual) GetExcludedMatchTestMetadata();
 
         [TestMethod]
         public void MapAtoBDoesNotChangeA()
